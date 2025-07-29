@@ -25,7 +25,7 @@ import { eq, and, desc } from "drizzle-orm";
 export interface IStorage {
   // User operations (required for Replit Auth)
   getUser(id: string): Promise<User | undefined>;
-  upsertUser(user: UpsertUser): Promise<User>;
+  upsertUser(user: UpsertUser, id?: string): Promise<User>;
   updateUserStripeInfo(userId: string, stripeCustomerId: string, stripeSubscriptionId: string): Promise<User>;
 
   // Category operations
@@ -64,10 +64,11 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async upsertUser(userData: UpsertUser): Promise<User> {
+  async upsertUser(userData: UpsertUser, id?: string): Promise<User> {
+    const userToInsert = id ? { ...userData, id } : userData;
     const [user] = await db
       .insert(users)
-      .values(userData)
+      .values(userToInsert)
       .onConflictDoUpdate({
         target: users.id,
         set: {
@@ -140,7 +141,7 @@ export class DatabaseStorage implements IStorage {
     if (existingItem) {
       // Update quantity
       const [updated] = await db.update(cartItems)
-        .set({ quantity: existingItem.quantity + (cartItem.quantity || 1) })
+        .set({ quantity: (existingItem.quantity || 0) + (cartItem.quantity || 1) })
         .where(eq(cartItems.id, existingItem.id))
         .returning();
       return updated;

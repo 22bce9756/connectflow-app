@@ -4,12 +4,12 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import ProductGrid from "@/components/ProductGrid";
-import SubscriptionPlans from "@/components/SubscriptionPlans";
-import Footer from "@/components/Footer";
-import ShoppingCart from "@/components/ShoppingCart";
+import Header from "../components/Header";
+import Hero from "../components/Hero";
+import ProductGrid from "../components/ProductGrid";
+import SubscriptionPlans from "../components/SubscriptionPlans";
+import Footer from "../components/Footer";
+import ShoppingCart from "../components/ShoppingCart";
 
 export default function Home() {
   const { toast } = useToast();
@@ -87,7 +87,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header cartItems={cartItems || []} onCartToggle={() => setCartOpen(!cartOpen)} />
+      <Header cartItems={(cartItems as any[]) || []} onCartToggle={() => setCartOpen(!cartOpen)} />
       
       <Hero />
       
@@ -116,7 +116,7 @@ export default function Home() {
       </section>
 
       <ProductGrid 
-        products={featuredProducts || []} 
+        products={(featuredProducts as any[]) || []} 
         loading={productsLoading}
         onAddToCart={(productId) => addToCartMutation.mutate(productId)}
         addingToCart={addToCartMutation.isPending}
@@ -129,7 +129,7 @@ export default function Home() {
       <ShoppingCart 
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
-        cartItems={cartItems || []}
+        cartItems={(cartItems as any[]) || []}
       />
     </div>
   );

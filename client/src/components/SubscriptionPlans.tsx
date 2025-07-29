@@ -39,7 +39,7 @@ export default function SubscriptionPlans() {
     }
   ];
 
-  const displayPlans = plans.length > 0 ? plans : mockPlans;
+  const displayPlans = (plans && Array.isArray(plans) && plans.length > 0) ? plans : mockPlans;
 
   return (
     <section className="py-20 bg-gradient-to-br from-primary/5 to-accent/5">
@@ -50,7 +50,7 @@ export default function SubscriptionPlans() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {displayPlans.map((plan: any) => (
+          {(displayPlans as any[]).map((plan: any) => (
             <Card key={plan.id} className={`relative ${plan.popular ? 'border-2 border-primary shadow-xl' : 'shadow-lg'}`}>
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">

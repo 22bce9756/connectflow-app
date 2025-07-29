@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function ProductDetail() {
   const params = useParams();
@@ -89,7 +89,7 @@ export default function ProductDetail() {
   if (error || !product) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header cartItems={cartItems || []} onCartToggle={() => {}} />
+        <Header cartItems={(cartItems as any[]) || []} onCartToggle={() => {}} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <Card>
             <CardContent className="p-8 text-center">
@@ -109,7 +109,7 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header cartItems={cartItems || []} onCartToggle={() => {}} />
+      <Header cartItems={(cartItems as any[]) || []} onCartToggle={() => {}} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Button 
@@ -125,8 +125,8 @@ export default function ProductDetail() {
           {/* Product Image */}
           <div>
             <img 
-              src={product.imageUrl || "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&h=600"} 
-              alt={product.title}
+              src={(product as any)?.imageUrl || "https://images.unsplash.com/photo-1553028826-f4804a6dba3b?auto=format&fit=crop&w=800&h=600"} 
+              alt={(product as any)?.title || "Product"}
               className="w-full h-96 object-cover rounded-2xl shadow-lg"
             />
           </div>
@@ -134,16 +134,16 @@ export default function ProductDetail() {
           {/* Product Details */}
           <div>
             <div className="mb-4">
-              {product.featured && (
+              {(product as any)?.featured && (
                 <Badge className="mb-2">Featured</Badge>
               )}
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.title}</h1>
-              <p className="text-xl text-gray-600 mb-6">{product.description}</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">{(product as any)?.title}</h1>
+              <p className="text-xl text-gray-600 mb-6">{(product as any)?.description}</p>
             </div>
 
             <div className="mb-8">
               <div className="text-4xl font-bold text-primary mb-4">
-                ${parseFloat(product.price).toFixed(2)}
+                ${parseFloat((product as any)?.price || "0").toFixed(2)}
               </div>
             </div>
 

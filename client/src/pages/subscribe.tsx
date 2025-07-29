@@ -9,8 +9,8 @@ import { isUnauthorizedError } from "@/lib/authUtils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.
@@ -139,7 +139,7 @@ export default function Subscribe() {
     retry: false,
   });
 
-  const selectedPlan = plans.find((plan: any) => plan.id === selectedPlanId) || plans[1]; // Default to Pro plan
+  const selectedPlan = (plans as any[]).find((plan: any) => plan.id === selectedPlanId) || (plans as any[])[1]; // Default to Pro plan
 
   useEffect(() => {
     if (isAuthenticated && selectedPlan?.stripePriceId) {
